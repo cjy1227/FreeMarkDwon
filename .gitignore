@@ -1,0 +1,7 @@
+node_modules/
+renderer/
+dist/
+*.log
+builder-debug.yml
+github_key.txt
+.env

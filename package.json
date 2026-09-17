@@ -1,0 +1,57 @@
+{
+  "name": "freemarkdwon",
+  "version": "0.2.0",
+  "private": true,
+  "description": "FreeMarkDwon is a local-first, Typora-inspired Markdown desktop editor.",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:web\" \"npm:dev:electron\"",
+    "dev:web": "vite --host 127.0.0.1",
+    "dev:electron": "wait-on tcp:5173 && electron . --dev",
+    "build": "tsc -b && vite build",
+    "start": "electron .",
+    "package": "npm run build && electron-builder",
+    "package:portable": "npm run build && electron-builder --win portable"
+  },
+  "dependencies": {
+    "@milkdown/crepe": "^7.17.1",
+    "@milkdown/kit": "^7.17.1",
+    "@milkdown/react": "^7.17.1",
+    "mermaid": "^11.12.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@electron-toolkit/preload": "^3.0.1",
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "concurrently": "^9.2.1",
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.7",
+    "wait-on": "^8.0.3"
+  },
+  "build": {
+    "appId": "com.personal.freemarkdwon",
+    "productName": "FreeMarkDwon",
+    "directories": {
+      "output": "C:/Users/cjy/Downloads/FreeMarkDwon-release"
+    },
+    "fileAssociations": [{
+      "ext": ["md", "markdown", "mdx", "txt"],
+      "name": "Markdown document",
+      "description": "Markdown document"
+    }],
+    "files": [
+      "renderer/**",
+      "electron/**",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  }
+}
