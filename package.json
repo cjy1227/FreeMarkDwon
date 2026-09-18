@@ -14,6 +14,7 @@
     "package:portable": "npm run build && electron-builder --win portable"
   },
   "dependencies": {
+    "@fontsource/open-sans": "^5.2.6",
     "@milkdown/crepe": "^7.17.1",
     "@milkdown/kit": "^7.17.1",
     "@milkdown/react": "^7.17.1",
@@ -40,11 +41,18 @@
     "directories": {
       "output": "C:/Users/cjy/Downloads/FreeMarkDwon-release"
     },
-    "fileAssociations": [{
-      "ext": ["md", "markdown", "mdx", "txt"],
-      "name": "Markdown document",
-      "description": "Markdown document"
-    }],
+    "fileAssociations": [
+      {
+        "ext": [
+          "md",
+          "markdown",
+          "mdx",
+          "txt"
+        ],
+        "name": "Markdown document",
+        "description": "Markdown document"
+      }
+    ],
     "files": [
       "renderer/**",
       "electron/**",
