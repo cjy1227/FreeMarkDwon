@@ -65,6 +65,7 @@ export default function App() {
   const [fileName, setFileName] = useState('未命名文档.md')
   const [dirty, setDirty] = useState(false)
   const [status, setStatus] = useState('已就绪')
+  const [spellcheck, setSpellcheck] = useState(() => localStorage.getItem('freemarkdwon.spellcheck') === 'true')
   const diagrams = useMemo<Diagram[]>(() => [...markdown.matchAll(/```(mermaid|mmd)\s*\r?\n([\s\S]*?)```/gi)].map((match) => ({ language: match[1], source: match[2].trim() })), [markdown])
 
   const setDocument = useCallback((value: string) => {
@@ -86,9 +87,15 @@ export default function App() {
     editor.create().then(() => {
       editorRef.current = editor
       editor.editor.action(replaceAll(markdownRef.current))
+      hostRef.current?.querySelector<HTMLElement>('.ProseMirror')?.setAttribute('spellcheck', String(localStorage.getItem('freemarkdwon.spellcheck') === 'true'))
     })
     return () => { editor.destroy(); editorRef.current = null }
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem('freemarkdwon.spellcheck', String(spellcheck))
+    hostRef.current?.querySelector<HTMLElement>('.ProseMirror')?.setAttribute('spellcheck', String(spellcheck))
+  }, [spellcheck])
 
   const open = useCallback(async () => {
     if (!window.freeMarkDwon) return setStatus('请使用桌面版打开本地文件')
@@ -146,6 +153,7 @@ export default function App() {
         <button onClick={() => void save(false)}>保存</button>
         <button onClick={() => void save(true)}>另存</button>
         <button onClick={() => void exportHtml()}>导出 HTML</button>
+        <button onClick={() => setSpellcheck((value) => !value)} aria-pressed={spellcheck}>{spellcheck ? '拼写检查：开' : '拼写检查：关'}</button>
         <button className="mode-switch" onClick={toggleMode}>{mode === 'focus' ? '源码分屏' : '沉浸编辑'}</button>
       </nav>
     </header>
